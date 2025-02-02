@@ -1,0 +1,13 @@
+server:
+  port: 8083  # Unique port for notification-service
+
+spring:
+  application:
+    name: notification-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
