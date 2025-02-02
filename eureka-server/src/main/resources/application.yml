@@ -1,0 +1,11 @@
+server:
+  port: 8761  # Default port for Eureka dashboard
+
+spring:
+  application:
+    name: eureka-server
+
+eureka:
+  client:
+    register-with-eureka: false  # Since this is the server, it doesn't register itself
+    fetch-registry: false        # The server doesn't need to fetch registry data

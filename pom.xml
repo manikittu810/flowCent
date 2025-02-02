@@ -7,16 +7,50 @@
     <groupId>com.flowcent</groupId>
     <artifactId>flowcent_application</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging> <!--for packaging in POM-->
+
+<!--for multi module -->
     <modules>
         <module>account-service</module>
         <module>notification-service</module>
         <module>transaction-service</module>
-
+        <module>eureka-server</module>
     </modules>
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+<!--    dependency management for the consistent spring versions-->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot BOM for consistent versions -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>3.4.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+<!--    Build Configuration to ensure the java 21 compatibility-->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.12.1</version>
+                    <configuration>
+                        <source>21</source>
+                        <target>21</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
