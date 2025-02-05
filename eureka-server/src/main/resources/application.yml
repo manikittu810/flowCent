@@ -9,3 +9,6 @@ eureka:
   client:
     register-with-eureka: false  # Since this is the server, it doesn't register itself
     fetch-registry: false        # The server doesn't need to fetch registry data
+
+  server:
+    enable-self-preservation: true  # Enables self-preservation to protect against accidental expiry during network glitches

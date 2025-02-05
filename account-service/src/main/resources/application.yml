@@ -1,5 +1,5 @@
 server:
-  port: 8081  # Unique port for account-service
+  port: 8085  # Unique port for account-service
 
 spring:
   application:
@@ -8,6 +8,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/  # URL of Eureka server
+      defaultZone: http://eureka-server:8761/eureka/  # Use Docker network name for internal communication
     register-with-eureka: true
     fetch-registry: true
+
