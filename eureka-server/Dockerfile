@@ -1,16 +1,15 @@
-# use openjdk 21 as the base image
+# Use the official OpenJDK 21 image as a base
 FROM openjdk:21-jdk-slim
-# set the working dorectory inside the container
-VOLUME /tmp
 
-# copy theJAR file built by maven into the container
-ARG JAR_FILE=target/eureka-server-0.0.1-SNAPSHOT.jar
+# Set the working directory inside the container
+WORKDIR /app
 
-COPY ${JAR_FILE} app.jar
+# Copy the JAR file from the target folder into the container
+COPY target/*.jar app.jar
 
-# runtime application
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# Expose the service's port (adjust as needed)
+EXPOSE 8761
+# For Eureka Server, change to 8085, 8082, etc., for other services
 
-
-
-
+# Command to run the JAR file
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # Traefik Gateway
+  traefik:
+    image: traefik:v2.9
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8081:8080"  # Traefik Dashboard on port 8081
+    networks:
+      - flowcent-network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  # Account Service
+  account-service:
+    build:
+      context: ./account-service  # Matches the project structure
+      dockerfile: Dockerfile      # Ensure Dockerfile exists inside account-service directory
+    networks:
+      - flowcent-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.account-service.rule=PathPrefix(`/accounts`)"
+      - "traefik.http.services.account-service.loadbalancer.server.port=8085"  # Unique port to avoid conflict
+
+  # Transaction Service
+  transaction-service:
+    build:
+      context: ./transaction-service
+      dockerfile: Dockerfile
+    networks:
+      - flowcent-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.transaction-service.rule=PathPrefix(`/transactions`)"
+      - "traefik.http.services.transaction-service.loadbalancer.server.port=8082"  # Unique port
+
+  # Notification Service
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    networks:
+      - flowcent-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.notification-service.rule=PathPrefix(`/notifications`)"
+      - "traefik.http.services.notification-service.loadbalancer.server.port=8083"  # Unique port
+
+# Common Service
+  common-service:
+    build:
+      context: ./common-service
+      dockerfile: Dockerfile
+    networks:
+      - flowcent-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.common-service.rule=PathPrefix(`/common`)"
+      - "traefik.http.services.common-service.loadbalancer.server.port=8084"
+
+  # Eureka Server
+  eureka-server:
+    build:
+      context: ./eureka-server  # Matches your project structure
+      dockerfile: Dockerfile
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.eureka.rule=Host(`eureka.localhost`)"
+      - "traefik.http.services.eureka.loadbalancer.server.port=8761"
+    networks:
+      - flowcent-network
+
+networks:
+  flowcent-network:
+    driver: bridge
