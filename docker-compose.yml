@@ -20,11 +20,14 @@ services:
 
   # Account Service
   account-service:
+    container_name: account-service
     build:
       context: ./account-service  # Matches the project structure
       dockerfile: Dockerfile      # Ensure Dockerfile exists inside account-service directory
     networks:
       - flowcent-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.account-service.rule=PathPrefix(`/accounts`)"
@@ -32,9 +35,12 @@ services:
 
   # Transaction Service
   transaction-service:
+    container_name: transaction-service
     build:
       context: ./transaction-service
       dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - flowcent-network
     labels:
@@ -44,9 +50,12 @@ services:
 
   # Notification Service
   notification-service:
+    container_name: notification-service
     build:
       context: ./notification-service
       dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - flowcent-network
     labels:
@@ -56,9 +65,12 @@ services:
 
 # Common Service
   common-service:
+    container_name: common-service
     build:
       context: ./common-service
       dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - flowcent-network
     labels:
@@ -71,6 +83,8 @@ services:
     build:
       context: ./eureka-server  # Matches your project structure
       dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     container_name: eureka-server
     ports:
       - "8761:8761"

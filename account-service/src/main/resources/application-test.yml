@@ -1,0 +1,21 @@
+# application-test.yml
+
+spring :
+  datasource :
+    url : jdbc:h2:mem::accounttestdb
+    driver-class-name : org.h2.Driver
+    username : sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
+
+server:
+  port: 8085
+
+logging:
+  level :
+    root: info
+

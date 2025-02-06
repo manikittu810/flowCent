@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url : jdbc:postgresql:/prod-db-host-accountdb
+    driver-class-name: org.postgresql.Driver
+    username: prod_user
+    password: smk_123
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8085
+logging:
+  level:
+    root: warn
