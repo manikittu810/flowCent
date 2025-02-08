@@ -16,6 +16,7 @@
         <module>transaction-service</module>
         <module>common-service</module>
         <module>eureka-server</module>
+        <module>auth-service</module>
     </modules>
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

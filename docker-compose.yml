@@ -78,6 +78,21 @@ services:
       - "traefik.http.routers.common-service.rule=PathPrefix(`/common`)"
       - "traefik.http.services.common-service.loadbalancer.server.port=8084"
 
+    #auth-service
+  auth-service :
+    container_name: auth-service
+    build :
+      context : ./auth-service
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - flowcent-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth-service.rule=PathPrefix(`/auth`)"
+      - "traefik.http.services.auth-service.loadbalancer.server.port=8086"
+
   # Eureka Server
   eureka-server:
     build:

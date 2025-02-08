@@ -1,0 +1,31 @@
+server :
+  port :8086
+
+spring:
+  application :
+    name : auth-server
+  datasource:
+    url: jdbc:postgresql://auth-db:5432/authdb
+    username: auth_user
+    password: auth_password
+    driver-class-name : org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/  # Use Docker network name for internal communication
+    register-with-eureka: true
+    fetch-registry: true
+
+
+
+
+
+# Sets the port to 8081
+# Configures PostgreSQL as the database
+# Registers auth-service with Eureka
