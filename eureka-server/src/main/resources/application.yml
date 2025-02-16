@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: eureka-server
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
 
 eureka:
   client:
@@ -12,3 +14,7 @@ eureka:
 
   server:
     enable-self-preservation: true  # Enables self-preservation to protect against accidental expiry during network glitches
+
+logging:
+  level:
+    root: INFO

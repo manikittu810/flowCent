@@ -1,0 +1,13 @@
+logging:
+  level:
+    root: WARN
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: prod-eureka
+  server:
+    enable-self-preservation: true
+    eviction-interval-timer-in-ms: 60000  # Adjust eviction interval for production

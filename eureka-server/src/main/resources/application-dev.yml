@@ -1,0 +1,12 @@
+logging:
+  level:
+    root: DEBUG
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+  server:
+    enable-self-preservation: false  # Disable self-preservation in dev

@@ -5,7 +5,7 @@ services:
   traefik:
     image: traefik:v2.9
     command:
-      - --api.insecure=true
+      - --api.insecure=false
       - --providers.docker=true
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
@@ -20,11 +20,14 @@ services:
 
   # Account Service
   account-service:
+    container_name: account-service
     build:
       context: ./account-service  # Matches the project structure
       dockerfile: Dockerfile      # Ensure Dockerfile exists inside account-service directory
     networks:
       - flowcent-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.account-service.rule=PathPrefix(`/accounts`)"
@@ -32,9 +35,12 @@ services:
 
   # Transaction Service
   transaction-service:
+    container_name: transaction-service
     build:
       context: ./transaction-service
       dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - flowcent-network
     labels:
@@ -44,9 +50,12 @@ services:
 
   # Notification Service
   notification-service:
+    container_name: notification-service
     build:
       context: ./notification-service
       dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - flowcent-network
     labels:
@@ -56,9 +65,12 @@ services:
 
 # Common Service
   common-service:
+    container_name: common-service
     build:
       context: ./common-service
       dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - flowcent-network
     labels:
@@ -66,11 +78,28 @@ services:
       - "traefik.http.routers.common-service.rule=PathPrefix(`/common`)"
       - "traefik.http.services.common-service.loadbalancer.server.port=8084"
 
+    #auth-service
+  auth-service :
+    container_name: auth-service
+    build :
+      context : ./auth-service
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - flowcent-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth-service.rule=PathPrefix(`/auth`)"
+      - "traefik.http.services.auth-service.loadbalancer.server.port=8086"
+
   # Eureka Server
   eureka-server:
     build:
       context: ./eureka-server  # Matches your project structure
       dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     container_name: eureka-server
     ports:
       - "8761:8761"
