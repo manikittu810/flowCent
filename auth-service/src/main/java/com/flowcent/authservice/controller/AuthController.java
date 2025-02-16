@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping(path="/signup")
-    public ResponseEntity<?> signUp(@PathVariable AuthRequest request){
+    public ResponseEntity<?> signUp(@RequestBody AuthRequest request){
 
         if(userRepository.findUserByUsername(request.getName()).isPresent()){
             return ResponseEntity.badRequest().body("Username already exists..");
